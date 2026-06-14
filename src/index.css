@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 2%;
+    --foreground: 40 20% 88%;
+    --card: 0 0% 5%;
+    --card-foreground: 40 20% 88%;
+    --popover: 0 0% 5%;
+    --popover-foreground: 40 20% 88%;
+    --primary: 40 45% 55%;
+    --primary-foreground: 0 0% 2%;
+    --secondary: 0 0% 16%;
+    --secondary-foreground: 40 20% 88%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 40 10% 55%;
+    --accent: 0 70% 15%;
+    --accent-foreground: 40 20% 88%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 40 20% 18%;
+    --input: 0 0% 14%;
+    --ring: 40 45% 55%;
+    --chart-1: 40 45% 55%;
+    --chart-2: 0 70% 15%;
+    --chart-3: 40 20% 88%;
+    --chart-4: 0 0% 30%;
+    --chart-5: 40 30% 40%;
+    --radius: 0.25rem;
+    --font-heading: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    --sidebar-background: 0 0% 3%;
+    --sidebar-foreground: 40 20% 88%;
+    --sidebar-primary: 40 45% 55%;
+    --sidebar-primary-foreground: 0 0% 2%;
+    --sidebar-accent: 0 0% 8%;
+    --sidebar-accent-foreground: 40 20% 88%;
+    --sidebar-border: 0 0% 14%;
+    --sidebar-ring: 40 45% 55%;
+  }
+
+  .dark {
+    --background: 0 0% 2%;
+    --foreground: 40 20% 88%;
+    --card: 0 0% 5%;
+    --card-foreground: 40 20% 88%;
+    --popover: 0 0% 5%;
+    --popover-foreground: 40 20% 88%;
+    --primary: 40 45% 55%;
+    --primary-foreground: 0 0% 2%;
+    --secondary: 0 0% 16%;
+    --secondary-foreground: 40 20% 88%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 40 10% 55%;
+    --accent: 0 70% 15%;
+    --accent-foreground: 40 20% 88%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 40 20% 18%;
+    --input: 0 0% 14%;
+    --ring: 40 45% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-body;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+::-webkit-scrollbar-thumb {
+  background: #C5A059;
+  border-radius: 3px;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Gold text gradient */
+.gold-text {
+  background: linear-gradient(135deg, #C5A059 0%, #E8D5A3 40%, #C5A059 60%, #9A7B3F 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Smoke overlay animation */
+@keyframes smoke-drift {
+  0% { transform: translateY(0) translateX(0) scale(1); opacity: 0.3; }
+  50% { transform: translateY(-30px) translateX(15px) scale(1.1); opacity: 0.15; }
+  100% { transform: translateY(-60px) translateX(-10px) scale(1.2); opacity: 0; }
+}
+
+@keyframes golden-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(40px); filter: blur(8px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+.animate-reveal {
+  animation: reveal-up 1s ease-out forwards;
+}
+
+.animate-smoke {
+  animation: smoke-drift 8s ease-in-out infinite;
+}
+
+.animate-golden-pulse {
+  animation: golden-pulse 4s ease-in-out infinite;
+}
+
+/* Vellum section */
+.vellum-bg {
+  background-color: #E2DED0;
+  color: #1a1a1a;
+}
