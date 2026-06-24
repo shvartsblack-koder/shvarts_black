@@ -113,9 +113,10 @@ export default function AudioPlayer({ tracks, albumColor }) {
 
   return (
     <div className="w-full">
-      {/* Hidden audio element — no real src since tracks are fictional; player UI works as a demo */}
+      {/* Audio element — uses real URL if available, otherwise demo mode */}
       <audio
         ref={audioRef}
+        src={track?.audioUrl || undefined}
         onTimeUpdate={onTimeUpdate}
         onLoadedMetadata={onLoadedMetadata}
         onEnded={onEnded}
