@@ -1,0 +1,62 @@
+{
+  "name": "NewsArticle",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "excerpt": {
+      "type": "string"
+    },
+    "body": {
+      "type": "string"
+    },
+    "cover": {
+      "type": "string"
+    },
+    "gallery": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "categories": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "relatedAlbums": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "relatedWorks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "video": {
+      "type": "string"
+    },
+    "SEOtitle": {
+      "type": "string"
+    },
+    "SEOdescription": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "title",
+    "slug"
+  ]
+}

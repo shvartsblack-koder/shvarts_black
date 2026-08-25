@@ -1,0 +1,55 @@
+{
+  "name": "MusicTrack",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "string"
+    },
+    "album": {
+      "type": "string",
+      "description": "Slug \u0430\u043b\u044c\u0431\u043e\u043c\u0430"
+    },
+    "trackNumber": {
+      "type": "number",
+      "default": 1
+    },
+    "musicCategory": {
+      "type": "string"
+    },
+    "duration": {
+      "type": "string"
+    },
+    "audioFile": {
+      "type": "string"
+    },
+    "lyrics": {
+      "type": "string"
+    },
+    "compositionAuthor": {
+      "type": "string"
+    },
+    "lyricsAuthor": {
+      "type": "string"
+    },
+    "performers": {
+      "type": "string"
+    },
+    "cover": {
+      "type": "string"
+    },
+    "video": {
+      "type": "string"
+    },
+    "credits": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "title",
+    "slug",
+    "album"
+  ]
+}

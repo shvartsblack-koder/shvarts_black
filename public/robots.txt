@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /login
+Disallow: /register
+Disallow: /favorites
+Disallow: /ForgotPassword
+Disallow: /reset-password
+
+Sitemap: https://shvarts.black/sitemap.xml
