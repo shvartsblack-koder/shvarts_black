@@ -31,6 +31,8 @@ export default function Track() {
   if (!track) return <div className="pt-40 text-center font-serif-display text-3xl italic text-[#6B6B6B]">Композиция не найдена.</div>;
 
   const cover = track.cover || album?.cover;
+  const playable = Boolean(track.audioFile);
+  const queueItem = { ...track, albumTitle: album?.title, cover };
 
   return (
     <div className="pt-28 md:pt-32 pb-24">
@@ -41,17 +43,29 @@ export default function Track() {
           <ChevronLeft size={14} strokeWidth={1.5} /> {album?.title || 'Альбом'}
         </Link>
 
-        {cover && <div className="aspect-square w-full max-w-md overflow-hidden bg-[#1a1a1a] mb-10"><img src={cover} alt="" className="h-full w-full object-cover grayscale" /></div>}
+        {cover && (
+          <button
+            type="button"
+            disabled={!playable}
+            onClick={() => playable && playTrack(queueItem, [queueItem], 0)}
+            className={`aspect-square w-full max-w-md overflow-hidden bg-[#1a1a1a] mb-10 block text-left ${playable ? 'cursor-pointer group' : 'cursor-default'}`}
+            aria-label={playable ? `Слушать ${track.title}` : undefined}
+          >
+            <img src={cover} alt="" className={`h-full w-full object-cover grayscale ${playable ? 'group-hover:grayscale-0 transition-all duration-500' : ''}`} />
+          </button>
+        )}
 
         <p className="font-ui text-[11px] uppercase tracking-[0.3em] text-[#8B0000] mb-3">{album?.title}</p>
         <h1 className="font-serif-display text-5xl md:text-6xl leading-none">{track.title}</h1>
         {track.duration && <p className="font-ui text-[12px] tracking-[0.2em] text-[#A9A9A9] mt-4">{track.duration}</p>}
 
-        {track.audioFile && (
-          <button onClick={() => playTrack({ ...track, albumTitle: album?.title, cover }, [{ ...track, albumTitle: album?.title, cover }], 0)}
+        {playable ? (
+          <button onClick={() => playTrack(queueItem, [queueItem], 0)}
             className="mt-8 inline-flex items-center gap-3 bg-[#080808] text-[#FDFCF8] px-8 py-4 font-ui text-[12px] uppercase tracking-[0.2em] hover:bg-[#8B0000] transition-colors">
             <Play size={15} strokeWidth={1.5} /> Слушать
           </button>
+        ) : (
+          <p className="mt-8 font-ui text-[11px] uppercase tracking-[0.2em] text-[#A9A9A9]">Аудиофайл пока не загружен</p>
         )}
 
         <div className="mt-10 space-y-4 font-ui text-sm text-[#2B2B2B]">

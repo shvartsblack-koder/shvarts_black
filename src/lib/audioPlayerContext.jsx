@@ -43,6 +43,9 @@ export function AudioPlayerProvider({ children }) {
   const playTrack = useCallback((track, trackQueue = [], index = 0) => {
     const audio = audioRef.current;
     if (!audio || !track) return;
+    const src = track.audioFile || track.audioReading;
+    if (!src) return;
+
     if (trackQueue.length) {
       setQueue(trackQueue);
       setQueueIndex(index);
@@ -51,8 +54,11 @@ export function AudioPlayerProvider({ children }) {
       setQueueIndex(0);
     }
     setCurrentTrack(track);
-    audio.src = track.audioFile || track.audioReading;
-    audio.play().catch(() => {});
+    setIsLoading(true);
+    setProgress(0);
+    audio.src = src;
+    audio.load();
+    audio.play().catch(() => setIsLoading(false));
   }, []);
 
   const toggle = useCallback(() => {

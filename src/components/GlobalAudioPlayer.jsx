@@ -10,7 +10,7 @@ function fmt(t) {
 }
 
 export default function GlobalAudioPlayer() {
-  const { currentTrack, isPlaying, progress, duration, volume, toggle, next, prev, seek, setVolume, stop, isLoading } = useAudioPlayer();
+  const { currentTrack, isPlaying, progress, duration, volume, toggle, next, prev, seek, setVolume, stop, isLoading, queue, queueIndex } = useAudioPlayer();
   const [volOpen, setVolOpen] = useState(false);
   if (!currentTrack) return null;
 
@@ -36,7 +36,7 @@ export default function GlobalAudioPlayer() {
 
           {/* Controls */}
           <div className="flex items-center gap-2 md:gap-4 mx-auto">
-            <button onClick={prev} aria-label="Предыдущий" className="text-[#A9A9A9] hover:text-[#FDFCF8] transition-colors disabled:opacity-30" disabled>
+            <button onClick={prev} aria-label="Предыдущий" className="text-[#A9A9A9] hover:text-[#FDFCF8] transition-colors disabled:opacity-30" disabled={queueIndex <= 0}>
               <SkipBack size={16} strokeWidth={1.5} />
             </button>
             <button onClick={toggle} aria-label={isPlaying ? 'Пауза' : 'Слушать'}
@@ -44,7 +44,7 @@ export default function GlobalAudioPlayer() {
               {isLoading ? <Loader2 size={16} className="animate-spin" strokeWidth={1.5} /> :
                 isPlaying ? <Pause size={16} strokeWidth={1.5} /> : <Play size={16} strokeWidth={1.5} className="ml-0.5" />}
             </button>
-            <button onClick={next} aria-label="Следующий" className="text-[#A9A9A9] hover:text-[#FDFCF8] transition-colors disabled:opacity-30" disabled>
+            <button onClick={next} aria-label="Следующий" className="text-[#A9A9A9] hover:text-[#FDFCF8] transition-colors disabled:opacity-30" disabled={queueIndex < 0 || queueIndex >= queue.length - 1}>
               <SkipForward size={16} strokeWidth={1.5} />
             </button>
           </div>
