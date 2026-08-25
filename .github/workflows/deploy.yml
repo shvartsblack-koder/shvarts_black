@@ -32,9 +32,10 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          # Needed only so the frontend can load poems/albums/news from the hosted API
+          # Frontend talks to Base44 cloud API (GitHub Pages has no /api proxy)
           VITE_BASE44_APP_ID: 6a7cf89663ffa8e0d4ea7f6d
           VITE_BASE44_APP_BASE_URL: https://shvarts.black
+          VITE_BASE44_SERVER_URL: https://base44.app
 
       - name: Copy CNAME to dist
         run: |
