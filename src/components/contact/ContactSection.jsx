@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import SectionReveal from '../SectionReveal';
 import GoldenRule from '../GoldenRule';
+import { submitForm } from '../../lib/submitForm';
 import { toast } from 'sonner';
 
 const SOCIALS = [
@@ -28,11 +29,22 @@ export default function ContactSection() {
       return;
     }
     setSending(true);
-    // Simulate send
-    await new Promise((r) => setTimeout(r, 1500));
-    toast.success('Message sent successfully. We will be in touch.');
-    setForm({ name: '', email: '', subject: '', message: '' });
-    setSending(false);
+    try {
+      await submitForm({
+        type: 'contact',
+        name: form.name.trim(),
+        email: form.email.trim(),
+        subject: form.subject || 'Contact',
+        message: form.message.trim(),
+      });
+      toast.success('Message sent successfully. We will be in touch.');
+      setForm({ name: '', email: '', subject: '', message: '' });
+    } catch (err) {
+      console.error(err);
+      toast.error('Could not send message. Please try again or email hello@shvarts.black.');
+    } finally {
+      setSending(false);
+    }
   };
 
   return (

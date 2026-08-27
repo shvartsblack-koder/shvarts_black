@@ -3,11 +3,13 @@ import { Download, Mail } from 'lucide-react';
 import SectionReveal from '../SectionReveal';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ALBUMS } from '../../lib/albumsData';
+import { submitForm } from '../../lib/submitForm';
 import { toast } from 'sonner';
 
 export default function ScoresSection() {
   const [albumId, setAlbumId] = useState('');
   const [composition, setComposition] = useState('');
+  const [sending, setSending] = useState(false);
 
   const selectedAlbum = useMemo(() => ALBUMS.find((a) => a.id === albumId), [albumId]);
 
@@ -27,14 +29,44 @@ export default function ScoresSection() {
     return true;
   };
 
-  const handleRequest = () => {
-    if (!validate()) return;
-    toast.success(`Score request sent for "${composition}".`);
+  const handleRequest = async () => {
+    if (!validate() || sending) return;
+    setSending(true);
+    try {
+      await submitForm({
+        type: 'score_request',
+        subject: 'Score Request',
+        album: selectedAlbum?.title || albumId,
+        composition,
+        message: `Score request: ${selectedAlbum?.title || albumId} — ${composition}`,
+      });
+      toast.success(`Score request sent for "${composition}".`);
+    } catch (err) {
+      console.error(err);
+      toast.error('Could not send request. Please try again or email hello@shvarts.black.');
+    } finally {
+      setSending(false);
+    }
   };
 
-  const handlePreview = () => {
-    if (!validate()) return;
-    toast.success(`Preview download started for "${composition}".`);
+  const handlePreview = async () => {
+    if (!validate() || sending) return;
+    setSending(true);
+    try {
+      await submitForm({
+        type: 'score_preview',
+        subject: 'Score Preview',
+        album: selectedAlbum?.title || albumId,
+        composition,
+        message: `Preview request: ${selectedAlbum?.title || albumId} — ${composition}`,
+      });
+      toast.success(`Preview request recorded for "${composition}". We will follow up shortly.`);
+    } catch (err) {
+      console.error(err);
+      toast.error('Could not send request. Please try again or email hello@shvarts.black.');
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -77,9 +109,13 @@ export default function ScoresSection() {
                   <SelectTrigger className="h-14 bg-white/70 border-[#1a1a1a]/20 text-[#1a1a1a] font-body text-base tracking-wide">
                     <SelectValue placeholder="Select an album" />
                   </SelectTrigger>
-                  <SelectContent className="bg-[#F5F2E8] border-[#1a1a1a]/20 max-h-72">
+                  <SelectContent className="bg-[#F5F2E8] border-[#1a1a1a]/20 text-[#1a1a1a] max-h-72">
                     {ALBUMS.map((a) => (
-                      <SelectItem key={a.id} value={a.id} className="text-base py-3">
+                      <SelectItem
+                        key={a.id}
+                        value={a.id}
+                        className="text-base py-3 text-[#1a1a1a] cursor-pointer focus:bg-[#3d2a2a] focus:text-[#F5F2E8] data-[highlighted]:bg-[#3d2a2a] data-[highlighted]:text-[#F5F2E8]"
+                      >
                         {a.title} — {a.year}
                       </SelectItem>
                     ))}
@@ -131,14 +167,18 @@ export default function ScoresSection() {
               {/* Action buttons */}
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 <button
+                  type="button"
                   onClick={handleRequest}
-                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-[#1a1a1a] text-[#E2DED0] text-xs tracking-[0.15em] uppercase font-body hover:bg-[#C5A059] hover:text-[#050505] transition-all duration-500"
+                  disabled={sending}
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-[#1a1a1a] text-[#E2DED0] text-xs tracking-[0.15em] uppercase font-body hover:bg-[#C5A059] hover:text-[#050505] transition-all duration-500 disabled:opacity-50"
                 >
-                  <Mail size={13} /> Request Score
+                  <Mail size={13} /> {sending ? 'Sending...' : 'Request Score'}
                 </button>
                 <button
+                  type="button"
                   onClick={handlePreview}
-                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 border border-[#1a1a1a]/20 text-[#1a1a1a]/60 text-xs tracking-[0.15em] uppercase font-body hover:border-[#8B7D5E]/50 hover:text-[#8B7D5E] transition-all duration-500"
+                  disabled={sending}
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 border border-[#1a1a1a]/20 text-[#1a1a1a]/60 text-xs tracking-[0.15em] uppercase font-body hover:border-[#8B7D5E]/50 hover:text-[#8B7D5E] transition-all duration-500 disabled:opacity-50"
                 >
                   <Download size={13} /> Download Preview
                 </button>
