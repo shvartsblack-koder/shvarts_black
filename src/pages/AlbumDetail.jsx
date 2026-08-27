@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useParams, Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Download, Mail } from 'lucide-react';
 import { ALBUMS } from '../lib/albumsData';
@@ -10,7 +10,17 @@ import AudioPlayer from '../components/albums/AudioPlayer';
 
 export default function AlbumDetail() {
   const { albumId } = useParams();
+  const [searchParams] = useSearchParams();
+  const shouldAutoPlay = searchParams.get('play') === '1';
   const album = ALBUMS.find((a) => a.id === albumId);
+
+  useEffect(() => {
+    if (!shouldAutoPlay) return;
+    const timer = setTimeout(() => {
+      document.getElementById('player')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 250);
+    return () => clearTimeout(timer);
+  }, [shouldAutoPlay]);
 
   if (!album) {
     return (
@@ -93,7 +103,10 @@ export default function AlbumDetail() {
                 <a
                   href="#player"
                   className="flex items-center gap-2 px-7 py-3 bg-primary text-primary-foreground text-xs tracking-[0.2em] uppercase font-body hover:bg-primary/80 transition-all duration-400"
-                  onClick={(e) => { e.preventDefault(); document.getElementById('player')?.scrollIntoView({ behavior: 'smooth' }); }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById('player')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }}
                 >
                   Listen
                 </a>
@@ -127,7 +140,7 @@ export default function AlbumDetail() {
             <p className="text-xs text-foreground/25 font-body tracking-widest uppercase mb-8">
               {album.tracks.length} Tracks · Select a track to play
             </p>
-            <AudioPlayer tracks={album.tracks} albumColor={album.color} />
+            <AudioPlayer tracks={album.tracks} albumColor={album.color} autoPlay={shouldAutoPlay} />
           </motion.div>
         </div>
       </section>

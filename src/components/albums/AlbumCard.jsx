@@ -1,9 +1,22 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Play, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function AlbumCard({ album, index }) {
+  const navigate = useNavigate();
+  const hasAudio = album.tracks?.some((t) => t.audioUrl);
+
+  const startListening = (e) => {
+    e?.preventDefault?.();
+    e?.stopPropagation?.();
+    if (!hasAudio) {
+      navigate(`/album/${album.id}`);
+      return;
+    }
+    navigate(`/album/${album.id}?play=1`);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 40, filter: 'blur(6px)' }}
@@ -12,8 +25,12 @@ export default function AlbumCard({ album, index }) {
       transition={{ duration: 0.8, delay: index * 0.1 }}
       className="group relative flex-shrink-0 w-[260px] md:w-auto snap-start"
     >
-      {/* Cover */}
-      <div className="relative aspect-square overflow-hidden mb-4">
+      <button
+        type="button"
+        onClick={startListening}
+        className="relative aspect-square overflow-hidden mb-4 w-full text-left"
+        aria-label={`Listen to ${album.title}`}
+      >
         <img
           src={album.image}
           alt={album.title}
@@ -25,7 +42,6 @@ export default function AlbumCard({ album, index }) {
           style={{ background: `radial-gradient(ellipse at 50% 100%, ${album.color}99 0%, transparent 70%)` }}
         />
 
-        {/* Play overlay */}
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
           <div className="w-14 h-14 rounded-full border border-primary/60 bg-[#050505]/60 backdrop-blur-sm flex items-center justify-center">
             <Play size={20} className="text-primary ml-0.5" fill="currentColor" />
@@ -33,9 +49,8 @@ export default function AlbumCard({ album, index }) {
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary/0 group-hover:bg-primary/40 transition-all duration-700" />
-      </div>
+      </button>
 
-      {/* Genre tags */}
       <div className="flex flex-wrap gap-1 mb-2">
         {album.genres.slice(0, 2).map((g) => (
           <span key={g} className="text-[10px] tracking-[0.12em] uppercase text-primary/40 font-body">{g}</span>
@@ -50,7 +65,11 @@ export default function AlbumCard({ album, index }) {
       </p>
 
       <div className="flex gap-2 flex-wrap">
-        <button className="flex items-center gap-1.5 px-4 py-2 border border-primary/30 text-primary text-xs tracking-[0.12em] uppercase hover:bg-primary/10 transition-all duration-300">
+        <button
+          type="button"
+          onClick={startListening}
+          className="flex items-center gap-1.5 px-4 py-2 border border-primary/30 text-primary text-xs tracking-[0.12em] uppercase hover:bg-primary/10 transition-all duration-300"
+        >
           <Play size={10} fill="currentColor" />
           Listen
         </button>
