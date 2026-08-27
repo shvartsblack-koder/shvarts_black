@@ -1,13 +1,13 @@
 {
-  "name": "ШВАРЦ ЧÖРНЫЙ",
-  "short_name": "ШВАРЦ",
-  "description": "Цифровой архив поэта и композитора Шварца Чорного. Поэзия, музыка, истории.",
+  "name": "Shvarts Black",
+  "short_name": "Shvarts Black",
+  "description": "Official website of Shvarts Black — composer and musical visionary.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#080808",
-  "theme_color": "#080808",
-  "lang": "ru",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "lang": "en",
   "icons": [
     {
       "src": "/favicon.svg",

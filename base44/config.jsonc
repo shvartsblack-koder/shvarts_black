@@ -1,6 +1,5 @@
 {
-  "name": "shvarts-chorny",
-  "visibility": "public",
+  "name": "untitled",
   "site": {
     "installCommand": "npm install",
     "buildCommand": "npm run build",

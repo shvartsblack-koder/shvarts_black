@@ -32,15 +32,13 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          # Frontend talks to Base44 cloud API (GitHub Pages has no /api proxy)
-          VITE_BASE44_APP_ID: 6a7cf89663ffa8e0d4ea7f6d
+          VITE_BASE44_APP_ID: 6a29e5cf7bcb44e60651e6a7
           VITE_BASE44_APP_BASE_URL: https://shvarts.black
           VITE_BASE44_SERVER_URL: https://base44.app
 
       - name: Copy CNAME to dist
         run: |
           cp CNAME dist/CNAME
-          # GitHub Pages SPA fallback: unknown routes serve index
           cp dist/index.html dist/404.html
 
       - name: Upload artifact
