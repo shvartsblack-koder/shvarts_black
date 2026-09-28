@@ -413,6 +413,7 @@ function cmdVerify(m, args) {
     if (!exists(repoPath(c.root, 'public', rel))) r.fail('brand', `index.html ссылается на отсутствующий файл public/${rel}`);
   }
   for (const [p, hash] of Object.entries(b.files)) {
+    if (p === 'vercel.json' && process.env.VERCEL) continue; // Vercel rewrites it inside the build container
     const area = /\.github|vercel\.json|build-vercel|vite\.config|CNAME/.test(p) ? 'build' : p.endsWith(c.leadModule) ? 'forms' : /robots\.txt/.test(p) ? 'seo' : 'brand';
     if (!exists(repoPath(p))) r.fail(area, `удалён защищённый файл ${p}`);
     else if (sha256(fs.readFileSync(repoPath(p))) !== hash) r.fail(area, `изменён защищённый файл ${p} (верните: node site-guard/guard.mjs restore --ref main)`);
