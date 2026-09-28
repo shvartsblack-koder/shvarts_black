@@ -1,0 +1,102 @@
+# Grok (or a human) uploads a Base44 ZIP export to base44-inbox/<app>.zip on the base44-inbox branch.
+# This workflow merges it into main via site-guard, builds, verifies and opens a PR with the report.
+name: Base44 sync
+
+on:
+  push:
+    branches: [base44-inbox]
+    paths: ['base44-inbox/*.zip']
+  workflow_dispatch:
+    inputs:
+      app:
+        description: 'Имя приложения (site-guard/<app>.manifest.json); архив берётся из base44-inbox/<app>.zip'
+        required: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: base44-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Collect archives
+        env:
+          INPUT_APP: ${{ inputs.app }}
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+        run: |
+          git fetch origin base44-inbox
+          mkdir -p "$RUNNER_TEMP/inbox"
+          git archive origin/base44-inbox base44-inbox | tar -x -C "$RUNNER_TEMP/inbox"
+          if [ -n "$INPUT_APP" ]; then
+            APPS="$INPUT_APP"
+          elif [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+            APPS=$(ls "$RUNNER_TEMP/inbox/base44-inbox" | grep '\.zip$' | sed 's/\.zip$//')
+          else
+            APPS=$(git diff --name-only "$BEFORE" "$AFTER" -- 'base44-inbox/*.zip' | xargs -r -n1 basename | sed 's/\.zip$//')
+          fi
+          APPS=$(echo $APPS | tr '\n' ' ')
+          [ -n "$APPS" ] || { echo "Нет архивов для обработки"; exit 1; }
+          echo "APPS=$APPS" >> "$GITHUB_ENV"
+          echo "Приложения: $APPS"
+
+      - name: Apply, build, verify
+        id: run
+        env:
+          VITE_LEADS_WEBHOOK_URL: ${{ secrets.VITE_LEADS_WEBHOOK_URL }}
+        run: |
+          git config user.name "base44-sync[bot]"
+          git config user.email "base44-sync@users.noreply.github.com"
+          BRANCH="sync/$(echo $APPS | tr ' ' '-')-$(date -u +%Y%m%d-%H%M)"
+          git switch -c "$BRANCH"
+          REPORT="$RUNNER_TEMP/report.md"
+          STATUS=ok
+          echo "# Обновление из Base44: $APPS" > "$REPORT"
+          for APP in $APPS; do
+            ZIP="$RUNNER_TEMP/inbox/base44-inbox/$APP.zip"
+            node site-guard/guard.mjs apply --app "$APP" --zip "$ZIP" || STATUS=fail
+            cat "site-guard/reports/apply-$APP.md" >> "$REPORT"
+            if node site-guard/guard.mjs build --app "$APP"; then
+              node site-guard/guard.mjs verify --app "$APP" --dist --require-webhook --report "$RUNNER_TEMP/verify-$APP.md" || STATUS=fail
+              cat "$RUNNER_TEMP/verify-$APP.md" >> "$REPORT"
+            else
+              STATUS=fail
+              printf '\n## ❌ Сборка %s упала — см. лог workflow\n' "$APP" >> "$REPORT"
+            fi
+          done
+          git add -A
+          git commit -m "Base44: обновление $APPS ($STATUS)" || true
+          git push origin "$BRANCH"
+          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
+          echo "status=$STATUS" >> "$GITHUB_OUTPUT"
+          cat "$REPORT" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Open pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: ${{ steps.run.outputs.branch }}
+          STATUS: ${{ steps.run.outputs.status }}
+        run: |
+          MARK=$([ "$STATUS" = ok ] && echo "✅" || echo "❌")
+          gh pr create --base main --head "$BRANCH" --title "$MARK Base44: обновление $APPS" --body-file "$RUNNER_TEMP/report.md" \
+            || echo "::warning::PR не создан автоматически. Откройте вручную: https://github.com/${{ github.repository }}/compare/main...$BRANCH"
+
+      - name: Fail on red checks
+        if: steps.run.outputs.status != 'ok'
+        run: |
+          echo "::error::Проверки site-guard не пройдены — см. отчёт в PR / Summary"
+          exit 1

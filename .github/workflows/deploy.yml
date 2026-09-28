@@ -37,6 +37,11 @@ jobs:
           VITE_BASE44_SERVER_URL: https://base44.app
           VITE_GOOGLE_SHEETS_WEBHOOK_URL: https://script.google.com/macros/s/AKfycby1lINKHR80ryX5OcCuRE2tr1b85owLFLLA13tacTDtiQbbLkubhqHp3GKw9GPws5wV/exec
 
+      - name: Site guard (forms, links, favicon/OG, SEO)
+        run: node site-guard/guard.mjs verify --dist --require-webhook
+        env:
+          VITE_LEADS_WEBHOOK_URL: ${{ secrets.VITE_LEADS_WEBHOOK_URL }}
+
       - name: Copy CNAME to dist
         run: |
           cp CNAME dist/CNAME
@@ -57,3 +62,20 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  live-check:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Live check (waits for CDN cache)
+        run: |
+          for i in 1 2 3 4 5 6; do
+            sleep 60
+            node site-guard/guard.mjs live --no-mirrors && exit 0
+            echo "Попытка $i не прошла, ждём обновления кэша GitHub Pages…"
+          done
+          exit 1

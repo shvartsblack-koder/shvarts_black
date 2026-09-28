@@ -1,0 +1,26 @@
+name: Site guard
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Build all apps
+        env:
+          VITE_LEADS_WEBHOOK_URL: ${{ secrets.VITE_LEADS_WEBHOOK_URL }}
+        run: node site-guard/guard.mjs build
+      - name: Verify forms, links, favicon/OG, SEO
+        env:
+          VITE_LEADS_WEBHOOK_URL: ${{ secrets.VITE_LEADS_WEBHOOK_URL }}
+        run: node site-guard/guard.mjs verify --dist --require-webhook

@@ -1,0 +1,142 @@
+{
+  "config": {
+    "app": "shvartsblack",
+    "title": "SHVARTS BLACK",
+    "root": ".",
+    "domain": "https://shvarts.black",
+    "basePath": "/",
+    "seoRoot": true,
+    "leadModule": "src/lib/submitForm.js",
+    "leadFunction": "submitForm",
+    "webhookEnv": "VITE_GOOGLE_SHEETS_WEBHOOK_URL",
+    "project": "shvarts-black",
+    "ignoreLinkPrefixes": [
+      "/api"
+    ],
+    "build": {
+      "commands": [
+        "npm install --no-audit --no-fund",
+        "npm run build"
+      ],
+      "env": {
+        "VITE_BASE44_APP_ID": "6a29e5cf7bcb44e60651e6a7",
+        "VITE_BASE44_APP_BASE_URL": "https://shvarts.black",
+        "VITE_BASE44_SERVER_URL": "https://base44.app",
+        "VITE_GOOGLE_SHEETS_WEBHOOK_URL": "https://script.google.com/macros/s/AKfycby1lINKHR80ryX5OcCuRE2tr1b85owLFLLA13tacTDtiQbbLkubhqHp3GKw9GPws5wV/exec"
+      }
+    }
+  },
+  "baseline": {
+    "snapshotAt": "2026-09-28T12:40:06.607Z",
+    "gitCommit": "e748fcf",
+    "routes": [
+      "/",
+      "/album/:albumId"
+    ],
+    "knownBrokenLinks": [
+      "/forgot-password",
+      "/login",
+      "/register"
+    ],
+    "hashLinks": 1,
+    "leadFormFiles": [
+      "src/components/contact/ContactSection.jsx",
+      "src/components/scores/ScoresSection.jsx"
+    ],
+    "formAllowlist": [
+      "src/pages/ForgotPassword.jsx",
+      "src/pages/Login.jsx",
+      "src/pages/Register.jsx",
+      "src/pages/ResetPassword.jsx"
+    ],
+    "head": {
+      "tags": {
+        "title": "Shvarts Black — Composer &amp; Musical Visionary",
+        "link:canonical||||": "https://shvarts.black/",
+        "link:icon||image/svg+xml||": "/favicon.svg",
+        "link:icon|48x48|||": "/favicon.ico",
+        "link:icon|48x48|image/png||": "/favicon-48.png",
+        "link:icon|32x32|image/png||": "/favicon-32.png",
+        "link:icon|16x16|image/png||": "/favicon-16.png",
+        "link:apple-touch-icon|180x180|||": "/apple-touch-icon.png",
+        "link:manifest||||": "/site.webmanifest",
+        "meta:description": "Composer, poet and author. Orchestral drama, piano lyricism, and cinematic soundscapes — where classical form meets contemporary vision.",
+        "meta:author": "Shvarts Black",
+        "meta:robots": "index, follow, max-image-preview:large",
+        "meta:og:type": "website",
+        "meta:og:url": "https://shvarts.black/",
+        "meta:og:site_name": "Shvarts Black",
+        "meta:og:locale": "en_US",
+        "meta:og:title": "Shvarts Black — Composer &amp; Musical Visionary",
+        "meta:og:description": "Composer, poet and author. Orchestral drama, piano lyricism, and cinematic soundscapes.",
+        "meta:og:image": "https://shvarts.black/og-default.jpg?v=20260903c",
+        "meta:og:image:secure_url": "https://shvarts.black/og-default.jpg?v=20260903c",
+        "meta:og:image:type": "image/jpeg",
+        "meta:og:image:width": "1200",
+        "meta:og:image:height": "630",
+        "meta:og:image:alt": "Shvarts Black — composer, poet and musical visionary at the piano",
+        "meta:twitter:card": "summary_large_image",
+        "meta:twitter:title": "Shvarts Black — Composer &amp; Musical Visionary",
+        "meta:twitter:description": "Composer, poet and author. Orchestral drama, piano lyricism, and cinematic soundscapes.",
+        "meta:twitter:image": "https://shvarts.black/og-default.jpg?v=20260903c",
+        "meta:twitter:image:alt": "Shvarts Black — composer, poet and musical visionary at the piano"
+      },
+      "jsonLd": [
+        "{\"@context\":\"https://schema.org\",\"@type\":\"Person\",\"name\":\"Shvarts Black\",\"jobTitle\":\"Composer\",\"description\":\"Composer, poet and author. Orchestral drama, piano lyricism, and cinematic soundscapes.\",\"image\":\"https://shvarts.black/og-default.jpg?v=20260903c\",\"url\":\"https://shvarts.black/\",\"sameAs\":[\"https://www.youtube.com/channel/UCG5Xv9uA4LP1JjBbFzin-wA\",\"https://open.spotify.com/artist/32AY38EQm46S7I64U5dups\",\"https://music.apple.com/us/artist/shvarts-black/6772389995\"]}"
+      ]
+    },
+    "files": {
+      ".github/workflows/base44-sync.yml": "4cdf154ec72add5cd5a0483031031521395f0549336287a569226b38c57f25dc",
+      ".github/workflows/deploy.yml": "366b9630586f2f551a2207effb6b3177732ee2dea4614a481f8106c9829a83e7",
+      ".github/workflows/site-guard.yml": "1d744fa2def8e1a7631f1d078ff00665e95c32885675e0a380f4902abae8eb76",
+      "CNAME": "e040e664a84661244fdf140144434b0f374ca77221bca9bca163e26ab445e804",
+      "public/apple-touch-icon.png": "498d0b8d29231daeb05d877cb1ffffc28c8ba7bd280048512a11fcd563180c35",
+      "public/favicon-16.png": "a70326c29dddb463f014d21446f808d608c1ff10a60c02e68ff5ff3acc329c01",
+      "public/favicon-32.png": "bace409ca4fd74ca34e0bedc79e96513936a6a5d6e44e46c2e095e7a2ba7f887",
+      "public/favicon-48.png": "4ee81ba2340871e9b7973054704ed014b5c0b0c30952f1bde27a39cc8e1648c4",
+      "public/favicon.ico": "af2669e22b8f1b8d37228abd9937226ff40004beb50bd10c0aa9ffe1df4ec83e",
+      "public/favicon.svg": "924fc2f66075378c6cdf33dc47de17fc0e30b7111386eb7f49aab6811dc5b2f8",
+      "public/icon-192.png": "1eb4ddb5e3ce08c19c526c6e2666f08fc7bb4ba0574e2eaa7e30dc768827a2cb",
+      "public/icon-512.png": "3578a4c59975a27422a282add76098772d5c3cc54ec25e3302092c5394af7d2b",
+      "public/og-default.jpg": "dc0aaaaf550e2ab67dcec98a1ed65d02c81019d144b0e35c9c4d24c1c1ed42a2",
+      "public/robots.txt": "629dd5a45751238608af9f3785ccfd2053143084cede674348a051ba23cf407d",
+      "public/site.webmanifest": "60e2410b6cba9537f405e89705a1ccc4e75772cfcf12b4b6b134b470131a3b4d",
+      "src/lib/submitForm.js": "fa1a253574b07ee0cabd62d00c6011ce6914b03c041472f71c41aa10a9d80d05",
+      "vite.config.js": "29ef9cb38597f65159b847b2786c592cf38706e1b60d907bba380a432d2dadb8"
+    },
+    "sitemapUrls": [
+      "https://shvarts.black/",
+      "https://shvarts.black/album/black-jazz-night",
+      "https://shvarts.black/album/dream-stalker",
+      "https://shvarts.black/album/dreams-of-belshazzar",
+      "https://shvarts.black/album/genesis-part-1",
+      "https://shvarts.black/album/grand-piano-concerto",
+      "https://shvarts.black/album/heart-rhythm-syncope",
+      "https://shvarts.black/album/one-thousand-and-one-nights",
+      "https://shvarts.black/album/other-works",
+      "https://shvarts.black/album/zeyde"
+    ],
+    "llmsLines": [],
+    "protectedFiles": [
+      ".github/workflows/base44-sync.yml",
+      ".github/workflows/deploy.yml",
+      ".github/workflows/site-guard.yml",
+      "CNAME",
+      "index.html",
+      "public/apple-touch-icon.png",
+      "public/favicon-16.png",
+      "public/favicon-32.png",
+      "public/favicon-48.png",
+      "public/favicon.ico",
+      "public/favicon.svg",
+      "public/icon-192.png",
+      "public/icon-512.png",
+      "public/og-default.jpg",
+      "public/robots.txt",
+      "public/site.webmanifest",
+      "public/sitemap.xml",
+      "src/lib/submitForm.js",
+      "vite.config.js"
+    ]
+  }
+}
