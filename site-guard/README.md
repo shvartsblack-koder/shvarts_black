@@ -5,7 +5,7 @@
 1. отправка форм (модуль отправки, webhook в бандле, все лид-формы вызывают его);
 2. кнопки и разделы (роуты, внутренние ссылки, заглушки `href="#"`);
 3. фавиконы и Open Graph (файлы в `public/`, теги в `<head>`);
-4. SEO / GEO и статьи (title, description, canonical, robots, JSON-LD, `robots.txt`, `sitemap.xml`, `llms.txt`, все URL из sitemap открываются).
+4. SEO / GEO и статьи (title, description, canonical, robots, JSON-LD, `robots.txt`, `sitemap.xml`, `llms.txt`, все URL из sitemap открываются с HTTP 200).
 
 ## Как обновить сайт из Base44
 
@@ -19,7 +19,8 @@
 
 ```bash
 node site-guard/guard.mjs apply --app <app> --zip export.zip   # наложить архив, защищённые файлы не трогаются
-node site-guard/guard.mjs build                                # установить зависимости и собрать
+node site-guard/guard.mjs build                                # установить зависимости, собрать и выполнить spa-pages
+node site-guard/guard.mjs spa-pages                            # копии index.html для URL из sitemap и роутов → HTTP 200 на GitHub Pages
 node site-guard/guard.mjs verify --dist --require-webhook      # проверить исходники и сборку
 node site-guard/guard.mjs live                                 # проверить боевой домен (и зеркала)
 node site-guard/guard.mjs test-lead --app <app>                # отправить одну тестовую заявку

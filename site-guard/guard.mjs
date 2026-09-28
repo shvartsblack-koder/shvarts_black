@@ -5,7 +5,8 @@
  *
  *   node site-guard/guard.mjs snapshot  [--app A]              record the current state as the baseline
  *   node site-guard/guard.mjs apply     --zip FILE [--app A]   merge a Base44 ZIP export, keeping protected files
- *   node site-guard/guard.mjs build     [--app A]              install + build with the configured env
+ *   node site-guard/guard.mjs build     [--app A]              install + build with the configured env (+ spa-pages)
+ *   node site-guard/guard.mjs spa-pages [--app A]              copy dist/index.html to <route>.html so GitHub Pages answers 200
  *   node site-guard/guard.mjs verify    [--app A] [--dist] [--require-webhook] [--report FILE]
  *   node site-guard/guard.mjs live      [--app A] [--url URL] [--no-mirrors] [--report FILE]
  *   node site-guard/guard.mjs test-lead [--app A] [--webhook URL]
@@ -484,6 +485,10 @@ function verifyDist(c, b, r, args) {
       if (had && !exists(path.join(dist, f))) r.fail('seo', `в сборке нет ${f}`);
     }
   }
+  if (c.spaPages !== false) {
+    const missing = spaPagePaths(c).filter((p) => !exists(path.join(dist, `${safeDecode(p).replace(/^\//, '')}.html`)));
+    if (missing.length) r.fail('seo', `в сборке нет страниц для ${missing.slice(0, 8).join(', ')}${missing.length > 8 ? '…' : ''} — на GitHub Pages они ответят 404. Выполните node site-guard/guard.mjs spa-pages после сборки`);
+  }
   const leadSrc = exists(repoPath(c.root, c.leadModule)) ? readText(repoPath(c.root, c.leadModule)) : '';
   const requireWebhook = args['require-webhook'] || process.env[c.webhookEnv] || leadSrc.includes(c.webhookPattern);
   if (requireWebhook) {
@@ -566,7 +571,7 @@ async function cmdLive(m, args) {
     const spa404 = statuses.filter((s) => s.status === 404 && /id=["']root["']/.test(s.body));
     const hard = statuses.filter((s) => s.status !== 200 && !spa404.includes(s));
     for (const s of hard) r.fail('seo', `${s.u} отвечает ${s.status}`);
-    if (spa404.length) r.warn('seo', `${spa404.length} URL из sitemap открываются, но отдают HTTP 404 (SPA-фолбэк GitHub Pages) — поисковики их не индексируют: ${spa404.slice(0, 5).map((s) => s.u).join(', ')}${spa404.length > 5 ? '…' : ''}`);
+    if (spa404.length) r[c.spaPages === false ? 'warn' : 'fail']('seo', `${spa404.length} URL из sitemap открываются, но отдают HTTP 404 (SPA-фолбэк GitHub Pages) — поисковики их не индексируют: ${spa404.slice(0, 5).map((s) => s.u).join(', ')}${spa404.length > 5 ? '…' : ''}`);
     if (!badSeo && !r.items.some((i) => i.area === 'seo' && i.level === 'fail')) r.ok('seo', `SEO-теги и файлы на месте, ${statuses.length - spa404.length}/${statuses.length} URL из sitemap отвечают 200`);
 
     const bundleSrc = [...page.body.matchAll(/<script[^>]+src=["']([^"']+\.js)["']/g)].map((x) => new URL(x[1], pageUrl).href);
@@ -628,6 +633,41 @@ function cmdBuild(m) {
     const res = spawnSync('bash', ['-c', cmd], { cwd: repoPath(c.root), env, stdio: 'inherit' });
     if (res.status !== 0) throw new Error(`${c.app}: "${cmd}" завершилась с кодом ${res.status}`);
   }
+  if (c.spaPages !== false) cmdSpaPages(m);
+}
+
+// GitHub Pages answers unknown SPA paths with 404.html and HTTP 404, so search engines skip them.
+// A copy of index.html at <path>.html is served for /<path> with HTTP 200.
+function spaPagePaths(c) {
+  const paths = new Set();
+  const sitemapFile = repoPath(c.root, 'public', 'sitemap.xml');
+  if (exists(sitemapFile)) {
+    for (const u of sitemapUrls(readText(sitemapFile))) { const p = urlToAppPath(u, c); if (p && p !== '/') paths.add(p); }
+  }
+  for (const r of extractRoutes(c, srcFiles(c))) if (r !== '/' && !/[:*]/.test(r)) paths.add(r.replace(/\/$/, ''));
+  return [...paths].sort();
+}
+
+function cmdSpaPages(m) {
+  const c = cfg(m);
+  const dist = repoPath(c.root, c.distDir);
+  const index = path.join(dist, 'index.html');
+  if (!exists(index)) throw new Error(`${c.app}: нет ${c.distDir}/index.html — сначала сборка`);
+  const html = fs.readFileSync(index);
+  const paths = spaPagePaths(c);
+  let created = 0;
+  for (const p of paths) {
+    const rel = safeDecode(p).replace(/^\//, '');
+    const files = [path.join(dist, `${rel}.html`)];
+    if (paths.some((o) => o.startsWith(`${p}/`))) files.push(path.join(dist, rel, 'index.html'));
+    for (const file of files) {
+      if (exists(file)) continue;
+      fs.mkdirSync(path.dirname(file), { recursive: true });
+      fs.writeFileSync(file, html);
+      created++;
+    }
+  }
+  console.log(`[${c.app}] spa-pages: создано ${created} копий index.html (HTTP 200 для внутренних страниц)`);
 }
 
 // ---------- apply archive ----------
@@ -756,6 +796,7 @@ async function main() {
     case 'protected': for (const m of manifests) console.log(m.data.baseline.protectedFiles.join('\n')); break;
     case 'restore': manifests.forEach((m) => cmdRestore(m, args)); break;
     case 'build': manifests.forEach(cmdBuild); break;
+    case 'spa-pages': manifests.forEach(cmdSpaPages); break;
     case 'apply': {
       if (manifests.length !== 1) throw new Error('apply: укажите --app');
       failed = !cmdApply(manifests[0], args);
