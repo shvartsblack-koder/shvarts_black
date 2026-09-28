@@ -383,6 +383,10 @@ function cmdVerify(m, args) {
   for (const f of unwired) r.fail('forms', `новая форма ${f} не подключена к ${c.leadFunction}(). Если это не лид-форма (вход, админка, форум), подтвердите у владельца и выполните snapshot`);
   const newLead = leadFiles.filter((f) => !b.leadFormFiles.includes(f));
   if (newLead.length) r.ok('forms', `новые подключённые формы: ${newLead.join(', ')}`);
+  for (const req of c.requiredPatterns || []) {
+    const file = repoPath(c.root, req.file);
+    if (!exists(file) || !readText(file).includes(req.text)) r.fail(req.area || 'build', `в ${req.file} пропало «${req.text}» — ${req.why}`);
+  }
   if (!r.items.some((i) => i.area === 'forms' && i.level === 'fail')) r.ok('forms', `${leadFiles.length} форм вызывают ${c.leadFunction}()`);
 
   // 2. clicks
