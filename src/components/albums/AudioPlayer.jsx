@@ -16,9 +16,10 @@ function parseDuration(str) {
   return parseInt(parts[0]) * 60 + parseInt(parts[1]);
 }
 
-export default function AudioPlayer({ tracks, albumColor }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
+export default function AudioPlayer({ tracks, albumColor, autoPlay = false }) {
+  const firstPlayable = Math.max(0, tracks.findIndex((t) => t.audioUrl));
+  const [currentIndex, setCurrentIndex] = useState(firstPlayable >= 0 ? firstPlayable : 0);
+  const [isPlaying, setIsPlaying] = useState(Boolean(autoPlay));
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(0.8);
@@ -42,7 +43,7 @@ export default function AudioPlayer({ tracks, albumColor }) {
     const audio = audioRef.current;
     if (!audio) return;
     if (isPlaying) {
-      audio.play().catch(() => {});
+      audio.play().catch(() => setIsPlaying(false));
     } else {
       audio.pause();
     }
@@ -55,7 +56,7 @@ export default function AudioPlayer({ tracks, albumColor }) {
     const audio = audioRef.current;
     if (!audio) return;
     audio.load();
-    if (isPlaying) audio.play().catch(() => {});
+    if (isPlaying) audio.play().catch(() => setIsPlaying(false));
   }, [currentIndex]);
 
   const onTimeUpdate = useCallback(() => {
