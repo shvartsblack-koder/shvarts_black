@@ -16,9 +16,9 @@ function parseDuration(str) {
   return parseInt(parts[0]) * 60 + parseInt(parts[1]);
 }
 
-export default function AudioPlayer({ tracks, albumColor }) {
+export default function AudioPlayer({ tracks, albumColor, autoPlay = false }) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(autoPlay);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(0.8);

@@ -11,6 +11,7 @@ import AudioPlayer from '../components/albums/AudioPlayer';
 export default function AlbumDetail() {
   const { albumId } = useParams();
   const album = ALBUMS.find((a) => a.id === albumId);
+  const autoPlay = new URLSearchParams(window.location.search).get('play') === '1';
 
   if (!album) {
     return (
@@ -127,7 +128,7 @@ export default function AlbumDetail() {
             <p className="text-xs text-foreground/25 font-body tracking-widest uppercase mb-8">
               {album.tracks.length} Tracks · Select a track to play
             </p>
-            <AudioPlayer tracks={album.tracks} albumColor={album.color} />
+            <AudioPlayer tracks={album.tracks} albumColor={album.color} autoPlay={autoPlay} />
           </motion.div>
         </div>
       </section>
