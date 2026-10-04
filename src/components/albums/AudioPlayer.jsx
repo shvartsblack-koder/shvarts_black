@@ -17,9 +17,14 @@ function parseDuration(str) {
 }
 
 export default function AudioPlayer({ tracks, albumColor, autoPlay = false }) {
+<<<<<<< наша версия
   const firstPlayable = Math.max(0, tracks.findIndex((t) => t.audioUrl));
   const [currentIndex, setCurrentIndex] = useState(firstPlayable >= 0 ? firstPlayable : 0);
   const [isPlaying, setIsPlaying] = useState(Boolean(autoPlay));
+=======
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(autoPlay);
+>>>>>>> новый Base44
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(0.8);

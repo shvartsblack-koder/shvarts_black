@@ -120,6 +120,41 @@ export const ALBUMS = [
     ],
   },
   {
+    id: 'zeyde',
+    title: 'ZEYDE',
+    year: '2023',
+    color: '#1A0A00',
+    genres: ['Klezmer', 'Jewish Folk', 'World Music', 'Orchestral Folk'],
+    description:
+      'A grand album of Jewish music inspired by Klezmer traditions, Eastern European Jewish folklore, and the cultural heritage of Jewish communities. Joy and melancholy, festivity and philosophical depth — united in one musical soul.',
+    longDescription:
+      '"Zeyde" — grandfather in Yiddish — is a tribute to memory, ancestry, and the living tradition of Jewish musical culture. Built on the authentic emotional language of Klezmer, this album weaves together the laughter of a wedding and the tears of exile, the ecstatic dance and the contemplative melody sung half in memory, half in prayer. Every note carries the weight of generations.',
+    image: 'https://media.base44.com/images/public/6a29e5cf7bcb44e60651e6a7/3aa9744d2_Zeydenew.png',
+    gallery: [
+      'https://media.base44.com/images/public/6a29e5cf7bcb44e60651e6a7/430da79d8_generated_image.png',
+      'https://media.base44.com/images/public/6a29e5cf7bcb44e60651e6a7/b60fedd62_generated_0fdf31af.png',
+      'https://media.base44.com/images/public/6a29e5cf7bcb44e60651e6a7/33c65cca9_generated_3502c429.png',
+    ],
+    tracks: [
+      { number: 1, title: 'Zeyde hello...', duration: '', audioUrl: 'https://media.base44.com/files/public/6a29e5cf7bcb44e60651e6a7/770ee631e_1ZeydehelloI.wav' },
+      { number: 2, title: 'Zeyde and his bench (First steps)', duration: '', audioUrl: 'https://media.base44.com/files/public/6a29e5cf7bcb44e60651e6a7/941093506_2ZeydeandhisbenchFirstStepsI.wav' },
+      { number: 3, title: 'Zeyde and the enchanted cupboard', duration: '', audioUrl: 'https://media.base44.com/files/public/6a29e5cf7bcb44e60651e6a7/8890a0383_3ZeydeandtheEnchantedCupboardI.wav' },
+      { number: 4, title: 'Zeyde and his incredible stories', duration: '', audioUrl: 'https://media.base44.com/files/public/6a29e5cf7bcb44e60651e6a7/b6911bf52_4ZeydeandhisstoriesI.wav' },
+      { number: 5, title: 'Zeyde and the wonders from the school safe', duration: '', audioUrl: 'https://media.base44.com/files/public/6a29e5cf7bcb44e60651e6a7/00ffc169d_5ZeydeandthewondersfromtheheadteacherssafeI.wav' },
+      { number: 6, title: 'Zeyde and the stolen watch', duration: '', audioUrl: 'https://media.base44.com/files/public/6a29e5cf7bcb44e60651e6a7/b9c5e654a_6ZeydeandtheStolenWatchI.wav' },
+      { number: 7, title: 'Zeyde and his friends', duration: '', audioUrl: 'https://media.base44.com/files/public/6a29e5cf7bcb44e60651e6a7/4cc515cec_7ZeydeandhisfriendsI.wav' },
+      { number: 8, title: 'Zeyde is choosing a watermelon at the market', duration: '', audioUrl: 'https://media.base44.com/files/public/6a29e5cf7bcb44e60651e6a7/a4b258cc9_8ZeydeischoosingawatermelonatthemarketI.wav' },
+      { number: 9, title: 'Zeyde family celebrations', duration: '', audioUrl: 'https://media.base44.com/files/public/6a29e5cf7bcb44e60651e6a7/4e800d1c7_9ZeydeandhistablespeechesI.wav' },
+      { number: 10, title: 'Zeyde is getting married', duration: '', audioUrl: 'https://media.base44.com/files/public/6a29e5cf7bcb44e60651e6a7/6c8d1fe3e_10ZeydeisgettingmarriedI.wav' },
+      { number: 11, title: 'Zeyde plays his accordion', duration: '', audioUrl: 'https://media.base44.com/files/public/6a29e5cf7bcb44e60651e6a7/3c7047d60_11ZeydeandhisaccordionI.wav' },
+      { number: 12, title: 'Zeyde and his first car', duration: '', audioUrl: 'https://media.base44.com/files/public/6a29e5cf7bcb44e60651e6a7/787ae3f96_12ZeydeisdrivingalandoI.wav' },
+      { number: 13, title: 'Zeyde and his pupils', duration: '', audioUrl: 'https://media.base44.com/files/public/6a29e5cf7bcb44e60651e6a7/f062bbd0f_13ZeydeandthepupilsI.wav' },
+      { number: 14, title: 'Zeyde and his photo albums', duration: '', audioUrl: 'https://media.base44.com/files/public/6a29e5cf7bcb44e60651e6a7/edf42ad4b_14ZeydeandhisphotoalbumI.wav' },
+      { number: 15, title: 'Zeyde and our last meeting', duration: '', audioUrl: 'https://media.base44.com/files/public/6a29e5cf7bcb44e60651e6a7/bdc298443_15ZeideandourlastconversationI.wav' },
+      { number: 16, title: 'Zeyde, farewell...', duration: '', audioUrl: 'https://media.base44.com/files/public/6a29e5cf7bcb44e60651e6a7/0e036fdeb_16ZeydefarewellI.wav' },
+    ],
+  },
+  {
     id: 'heart-rhythm-syncope',
     title: 'Heart Rhythm Syncope',
     year: '2024',
@@ -167,31 +202,6 @@ export const ALBUMS = [
       { number: 4, title: 'The Room', duration: '11:55' },
       { number: 5, title: 'What Do You Wish For?', duration: '10:30' },
       { number: 6, title: 'Return (Silence)', duration: '7:18' },
-    ],
-  },
-  {
-    id: 'zeyde',
-    title: 'Zeyde',
-    year: '2023',
-    color: '#1A0A00',
-    genres: ['Klezmer', 'Jewish Folk', 'World Music', 'Orchestral Folk'],
-    description:
-      'A grand album of Jewish music inspired by Klezmer traditions, Eastern European Jewish folklore, and the cultural heritage of Jewish communities. Joy and melancholy, festivity and philosophical depth — united in one musical soul.',
-    longDescription:
-      '"Zeyde" — grandfather in Yiddish — is a tribute to memory, ancestry, and the living tradition of Jewish musical culture. Built on the authentic emotional language of Klezmer, this album weaves together the laughter of a wedding and the tears of exile, the ecstatic dance and the contemplative melody sung half in memory, half in prayer. Every note carries the weight of generations.',
-    image: 'https://media.base44.com/images/public/6a29e5cf7bcb44e60651e6a7/086035134_generated_image.png',
-    gallery: [
-      'https://media.base44.com/images/public/6a29e5cf7bcb44e60651e6a7/430da79d8_generated_image.png',
-      'https://media.base44.com/images/public/6a29e5cf7bcb44e60651e6a7/b60fedd62_generated_0fdf31af.png',
-      'https://media.base44.com/images/public/6a29e5cf7bcb44e60651e6a7/33c65cca9_generated_3502c429.png',
-    ],
-    tracks: [
-      { number: 1, title: 'Zeyde\'s Dance (Freilekhs)', duration: '6:02' },
-      { number: 2, title: 'The Shtetl at Dawn', duration: '7:44' },
-      { number: 3, title: 'Doina (Lament)', duration: '9:15' },
-      { number: 4, title: 'Wedding March', duration: '5:38' },
-      { number: 5, title: 'Sabbath Candles', duration: '8:20' },
-      { number: 6, title: 'Nigunim (Songs Without Words)', duration: '10:07' },
     ],
   },
   {

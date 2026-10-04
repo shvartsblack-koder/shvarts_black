@@ -13,6 +13,7 @@ export default function AlbumDetail() {
   const [searchParams] = useSearchParams();
   const shouldAutoPlay = searchParams.get('play') === '1';
   const album = ALBUMS.find((a) => a.id === albumId);
+  const autoPlay = new URLSearchParams(window.location.search).get('play') === '1';
 
   useEffect(() => {
     if (!shouldAutoPlay) return;
@@ -140,7 +141,11 @@ export default function AlbumDetail() {
             <p className="text-xs text-foreground/25 font-body tracking-widest uppercase mb-8">
               {album.tracks.length} Tracks · Select a track to play
             </p>
+<<<<<<< наша версия
             <AudioPlayer tracks={album.tracks} albumColor={album.color} autoPlay={shouldAutoPlay} />
+=======
+            <AudioPlayer tracks={album.tracks} albumColor={album.color} autoPlay={autoPlay} />
+>>>>>>> новый Base44
           </motion.div>
         </div>
       </section>
