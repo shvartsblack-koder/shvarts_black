@@ -65,14 +65,8 @@ export default function AlbumCard({ album, index }) {
       </p>
 
       <div className="flex gap-2 flex-wrap">
-<<<<<<< наша версия
-        <button
-          type="button"
-          onClick={startListening}
-=======
         <Link
           to={`/album/${album.id}?play=1`}
->>>>>>> новый Base44
           className="flex items-center gap-1.5 px-4 py-2 border border-primary/30 text-primary text-xs tracking-[0.12em] uppercase hover:bg-primary/10 transition-all duration-300"
         >
           <Play size={10} fill="currentColor" />
