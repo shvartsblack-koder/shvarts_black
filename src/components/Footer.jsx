@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
@@ -7,9 +8,17 @@ export default function Footer() {
         <div className="font-brand font-medium text-lg tracking-[0.25em] gold-text">
           SHVARTS BLACK
         </div>
-        <p className="text-xs text-foreground/25 font-body tracking-[0.15em]">
-          © {new Date().getFullYear()} Shvarts Black. All rights reserved.
-        </p>
+        <div className="flex flex-col items-center gap-2">
+          <p className="text-xs text-foreground/25 font-body tracking-[0.15em]">
+            © {new Date().getFullYear()} Shvarts Black. All rights reserved.
+          </p>
+          <Link
+            to="/privacy"
+            className="text-xs text-foreground/30 hover:text-primary transition-colors font-body tracking-[0.15em]"
+          >
+            Privacy Policy · Политика конфиденциальности
+          </Link>
+        </div>
         <div className="flex items-center gap-6">
           {['YouTube', 'Spotify', 'Instagram'].map((s) => (
             <a
