@@ -21,10 +21,13 @@
       "env": {
         "VITE_BASE44_APP_ID": "6a29e5cf7bcb44e60651e6a7",
         "VITE_BASE44_APP_BASE_URL": "https://shvarts.black",
-        "VITE_BASE44_SERVER_URL": "https://base44.app",
+        "VITE_BASE44_SERVER_URL": "https://api.shvarts.black",
         "VITE_GOOGLE_SHEETS_WEBHOOK_URL": "https://script.google.com/macros/s/AKfycby1lINKHR80ryX5OcCuRE2tr1b85owLFLLA13tacTDtiQbbLkubhqHp3GKw9GPws5wV/exec"
       }
-    }
+    },
+    "extraProtected": [
+      "src/api/base44Client.js"
+    ]
   },
   "baseline": {
     "snapshotAt": "2026-09-28T12:50:33.796Z",
@@ -135,6 +138,7 @@
       "public/robots.txt",
       "public/site.webmanifest",
       "public/sitemap.xml",
+      "src/api/base44Client.js",
       "src/lib/submitForm.js",
       "vite.config.js"
     ]
