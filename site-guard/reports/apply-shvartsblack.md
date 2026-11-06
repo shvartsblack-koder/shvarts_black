@@ -2,16 +2,17 @@
 
 Архив: shvartsblack.zip, файлов: 103. Режим: трёхстороннее слияние.
 
-### Защищённые файлы: в архиве другая версия, оставлена наша (перенести полезное вручную) (2)
+### Защищённые файлы: в архиве другая версия, оставлена наша (перенести полезное вручную) (3)
 - index.html
+- src/api/base44Client.js
 - vite.config.js
 
-### Добавлено из Base44 (1)
-- src/lib/authMfa.js
+### Обновлено из Base44 (2)
+- package-lock.json
+- package.json
 
-### Оставлена наша версия (Base44 файл не менял) (9)
+### Оставлена наша версия (Base44 файл не менял) (8)
 - src/App.jsx
-- src/api/base44Client.js
 - src/components/Footer.jsx
 - src/components/albums/AlbumCard.jsx
 - src/components/albums/AudioPlayer.jsx
