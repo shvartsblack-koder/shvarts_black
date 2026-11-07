@@ -30,11 +30,12 @@
     ]
   },
   "baseline": {
-    "snapshotAt": "2026-09-28T12:50:33.796Z",
-    "gitCommit": "5ee4187",
+    "snapshotAt": "2026-11-07T08:13:16.524Z",
+    "gitCommit": "075ae3f",
     "routes": [
       "/",
-      "/album/:albumId"
+      "/album/:albumId",
+      "/privacy"
     ],
     "knownBrokenLinks": [
       "/forgot-password",
@@ -47,8 +48,10 @@
       "src/components/scores/ScoresSection.jsx"
     ],
     "formAllowlist": [
+      "src/components/MfaMethodSetup.jsx",
       "src/pages/ForgotPassword.jsx",
       "src/pages/Login.jsx",
+      "src/pages/Mfa.jsx",
       "src/pages/Register.jsx",
       "src/pages/ResetPassword.jsx"
     ],
@@ -117,7 +120,8 @@
       "https://shvarts.black/album/heart-rhythm-syncope",
       "https://shvarts.black/album/one-thousand-and-one-nights",
       "https://shvarts.black/album/other-works",
-      "https://shvarts.black/album/zeyde"
+      "https://shvarts.black/album/zeyde",
+      "https://shvarts.black/privacy"
     ],
     "llmsLines": [],
     "protectedFiles": [
